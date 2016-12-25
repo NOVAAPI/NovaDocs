@@ -1,7 +1,7 @@
 Blocks are the basic ingredient of any voxel game, and their existence is essential. To create a block, you must register it with the BlockManager in your mod's preInit() stage.
 
 ```java
-BlockFactory blockStateless = blockManager.register(BlockStateless.class);
+BlockFactory blockStateless = blockManager.register("simple", BlockStateless::new);
 ```
 
 The code above registers a block class called `BlockStateless`. `BlockStateless` extends `Block`. The following is `BlockStateless`'s code.
@@ -10,24 +10,19 @@ The code above registers a block class called `BlockStateless`. `BlockStateless`
 public class BlockStateless extends Block implements Syncable {
 
 	public BlockStateless() {
-		add(new StaticBlockRenderer(this)).setTexture(NovaBlock.steelTexture);
+		components.add(new StaticBlockRenderer(this)).setTexture(NovaBlock.steelTexture);
 
-		add(new Collider());
+		components.add(new Collider());
 
-		add(new ItemRenderer(this));
+		components.add(new ItemRenderer(this));
 
-		add(new Category("buildingBlocks"));
+		components.add(new Category("buildingBlocks"));
 		events.on(RightClickEvent.class).bind(this::onRightClick);
 	}
 
 	public void onRightClick(RightClickEvent evt) {
 		System.out.println("Sending Packet: 1234");
 		NovaBlock.networkManager.sync(this);
-	}
-
-	@Override
-	public String getID() {
-		return "simple";
 	}
 }
 ```
@@ -84,6 +79,9 @@ This is for use in combination with the `Orientation` component, it rotates the 
 
 ## Advanced Example
 This is an example of a block that combines most of the things listed above, it has a collider, is rotatable (and rendered as such) and print it's orientation to the console when right-clicked.
+```java
+BlockFactory blockStateless = blockManager.register("basicDuster", BasicDuster::new);
+```
 
 ```java
 public class BasicDuster extends Block implements Stateful, Storable, Syncable {
@@ -101,11 +99,11 @@ public class BasicDuster extends Block implements Stateful, Storable, Syncable {
 	 * Constructor for this block. Adds components, and binds events.
 	 */
 	public BasicDuster() {
-		add(new Collider()); // Collider (so the player doesn't walk through the block.)
-		add(orientation); // Orientation (see above)
-		add(new RotatedRenderer(this).setTexture(this::getTexture)); // Version of StaticBlockRenderer that honors Orientation.
-		add(new ItemRenderer(this)); // Make the item render like the block.
-		add(new Category("buildingBlocks")); // Put this in the "Building Blocks" Creative category (in MC, anyway)
+		components.add(new Collider()); // Collider (so the player doesn't walk through the block.)
+		components.add(orientation); // Orientation (see above)
+		components.add(new RotatedRenderer(this).setTexture(this::getTexture)); // Version of StaticBlockRenderer that honors Orientation.
+		components.add(new ItemRenderer(this)); // Make the item render like the block.
+		components.add(new Category("buildingBlocks")); // Put this in the "Building Blocks" Creative category (in MC, anyway)
 		events.on(RightClickEvent.class).bind(this::click); // Make sure "click" is called when a player right-clicks this block
 		orientation.events.on(Block.PlaceEvent.class).bind((e) -> YourMod.networkManager.sync(this)); // Make sure we sync when the orientation is initially set
 	}
@@ -151,15 +149,6 @@ public class BasicDuster extends Block implements Stateful, Storable, Syncable {
 			// If we're on the server, then write the orientation to the console for debugging.
 			System.out.println(get(Orientation.class).orientation());
 		}
-	}
-
-	/**
-	 * Gets the block ID.
-	 * @return The block's ID.
-	 */
-	@Override
-	public String getID() {
-		return "basicDuster";
 	}
 }
 ```

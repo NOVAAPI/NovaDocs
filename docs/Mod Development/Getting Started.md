@@ -3,10 +3,10 @@
 Workspace setup is done with the NOVA Gradle plugin, make sure you follow the setup docs [here](NOVA Gradle.md)
 
 # Mod Loading
-All mods have a main class that implements `Loadable` and is annotated with `@NovaMod`. The `@NovaMod` annotation tells NOVA that this is a mod class that needs to be loaded. Any class which implements `Loadable` has three methods, `preInit()`, `init()`, and `postInit()`. These methods are automatically called during the appropriated loading phases. Most of the content in NOVA must be registered during the preInit phase.
+All mods have a main class that implements `Loadable` and is annotated with `@Mod`. The `@Mod` annotation tells NOVA that this is a mod class that needs to be loaded. Any class which implements `Loadable` has three methods, `preInit()`, `init()`, and `postInit()`. These methods are automatically called during the appropriated loading phases. Most of the content in NOVA must be registered during the preInit phase.
 
 ```java
-@NovaMod(id = NovaBlock.id, name = "Nova Example Block", version = "0.0.1", novaVersion = "0.0.1")
+@Mod(id = NovaBlock.id, name = "Nova Example Block", version = "0.0.1", novaVersion = "0.1.0")
 public class NovaBlock implements Loadable {
 
     public static final String id = "novablock";
@@ -22,8 +22,8 @@ public class NovaBlock implements Loadable {
 
     @Override
     public void preInit() {
-        blockStateful = blockManager.register(BlockStateful.class);
-        blockStateless = blockManager.register(BlockStateless.class);
+        blockStateful = blockManager.register("stateful", BlockStateful::new);
+        blockStateless = blockManager.register("simple", BlockStateless::new);
     }
 }
 ```

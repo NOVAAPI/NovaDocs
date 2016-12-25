@@ -70,6 +70,7 @@ nova { //This block is used for configuring the NOVA Gradle plugin
          * config of the same name.
          * The name can be changed to your liking.
          */
+        //Wrapper profile for MC 1.7.10
         "17" {
             //The maven identifier of the wrapper this wrapper profile will use.
             wrapper "nova.core:NOVA-Core-Wrapper-MC1.7:0.1.0-SNAPSHOT"
@@ -78,6 +79,11 @@ nova { //This block is used for configuring the NOVA Gradle plugin
         //Wrapper profile for MC 1.8
         "18" {
             wrapper "nova.core:NOVA-Core-Wrapper-MC1.8:0.1.0-SNAPSHOT"
+        }
+
+        //Wrapper profile for MC 1.11
+        "1_11" {
+            wrapper "nova.core:NOVA-Core-Wrapper-MC1.11:0.1.0-SNAPSHOT";
         }
     }
 }
