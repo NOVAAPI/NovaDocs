@@ -51,7 +51,7 @@ You will see the following files in the template:
 #### `build.gradle`
 This file is the file which describes the Gradle build process.
 
-Here is an annotated version of the default `build.gradle`, **please use the file from NOVA-Template instead of copying this** <sup><sup>**cough** calclavia **cough**</sup</sup>.
+Here is an annotated version of the default `build.gradle`, **please use the file from NOVA-Template instead of copying this** <sup><sup>**cough** calclavia **cough**</sup></sup>.
 ```groovy
 plugins {
     id "java" //This is a java project, scala and groovy plugins also exist
