@@ -15,6 +15,7 @@ pages:
     - Getting started: Mod Development/Getting Started.md
     - NOVA Gradle: Mod Development/NOVA Gradle.md
     - Blocks: Mod Development/Blocks.md
+    - Items: Mod Development/Items.md
     - Events: Mod Development/Events.md
   - NOVA Development:
     - Development Workspace Setup: NOVA Development/Development Workspace Setup.md

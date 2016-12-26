@@ -11,12 +11,10 @@ public class BlockStateless extends Block implements Syncable {
 
 	public BlockStateless() {
 		components.add(new StaticBlockRenderer(this)).setTexture(NovaBlock.steelTexture); // TODO: Removed
-
 		components.add(new Collider());
-
-		components.add(new ItemRenderer(this));
-
+		components.add(new ItemRenderer(this)); // TODO: Deprecated
 		components.add(new Category("buildingBlocks"));
+
 		events.on(RightClickEvent.class).bind(this::onRightClick);
 	}
 
@@ -53,7 +51,6 @@ Orientation allows your block to be rotated and face towards a specific side. Us
 If you just add this component to the components not much will happen. The best thing to do is save this in a variable and annotate it with the `@Sync` and `@Store` annotations. The `@Sync` will sync between client and server (for that you should also have the block sync when it is placed down, see networking on how to do that)
 The `@Store` will save and load the orientation so the data is not lost when the world is reloaded
 
-
 ## Special Interfaces
 ### `Syncable`
 You may have noticed that BlockStateless implements Syncable. This interface allows the block to handle packets easily. By implementing Syncable, the block can synchronize between server and client. You can override the default methods `read(Packet packet)` and `write(Packet packet)` as shown in the example to read and write custom packets upon synchronization. Any variable annotated by `@Sync` will be synced between server and client, as long as you either leave the default methods alone or call `Syncable.super.read(packet);` and `Syncable.super.write(packet);` from your read and write methods respectively.
@@ -67,7 +64,7 @@ Storable allows a block to store its variables when a game saves. By implementin
 ## Rendering
 To render your block you have several options:
 
-- Use the `StaticBlockRenderer`
+- Use the `StaticBlockRenderer` (Removed)
 - Use any of the other built-in NOVA renderers
 - Create your own block renderer
 
@@ -102,7 +99,7 @@ public class BasicDuster extends Block implements Stateful, Storable, Syncable {
 		components.add(new Collider(this)); // Collider (so the player doesn't walk through the block.)
 		components.add(orientation); // Orientation (see above)
 		components.add(new RotatedRenderer(this).setTexture(this::getTexture)); // Version of StaticBlockRenderer that honors Orientation. // TODO: Removed
-		components.add(new ItemRenderer(this)); // Make the item render like the block.
+		components.add(new ItemRenderer(this)); // Make the item render like the block. // TODO: Deprecated
 		components.add(new Category("buildingBlocks")); // Put this in the "Building Blocks" Creative category (in MC, anyway)
 		events.on(RightClickEvent.class).bind(this::click); // Make sure "click" is called when a player right-clicks this block
 		events.on(Block.PlaceEvent.class).bind((e) -> YourMod.networkManager.sync(this)); // Make sure we sync when the orientation is initially set
