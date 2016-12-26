@@ -10,7 +10,7 @@ The code above registers a block class called `BlockStateless`. `BlockStateless`
 public class BlockStateless extends Block implements Syncable {
 
 	public BlockStateless() {
-		components.add(new StaticBlockRenderer(this)).setTexture(NovaBlock.steelTexture);
+		components.add(new StaticBlockRenderer(this)).setTexture(NovaBlock.steelTexture); // TODO: Removed
 
 		components.add(new Collider());
 
@@ -80,7 +80,7 @@ This is for use in combination with the `Orientation` component, it rotates the 
 ## Advanced Example
 This is an example of a block that combines most of the things listed above, it has a collider, is rotatable (and rendered as such) and print it's orientation to the console when right-clicked.
 ```java
-BlockFactory blockStateless = blockManager.register("basicDuster", BasicDuster::new);
+BlockFactory blockStateless = blockManager.register("basic_duster", BasicDuster::new);
 ```
 
 ```java
@@ -99,13 +99,13 @@ public class BasicDuster extends Block implements Stateful, Storable, Syncable {
 	 * Constructor for this block. Adds components, and binds events.
 	 */
 	public BasicDuster() {
-		components.add(new Collider()); // Collider (so the player doesn't walk through the block.)
+		components.add(new Collider(this)); // Collider (so the player doesn't walk through the block.)
 		components.add(orientation); // Orientation (see above)
-		components.add(new RotatedRenderer(this).setTexture(this::getTexture)); // Version of StaticBlockRenderer that honors Orientation.
+		components.add(new RotatedRenderer(this).setTexture(this::getTexture)); // Version of StaticBlockRenderer that honors Orientation. // TODO: Removed
 		components.add(new ItemRenderer(this)); // Make the item render like the block.
 		components.add(new Category("buildingBlocks")); // Put this in the "Building Blocks" Creative category (in MC, anyway)
 		events.on(RightClickEvent.class).bind(this::click); // Make sure "click" is called when a player right-clicks this block
-		orientation.events.on(Block.PlaceEvent.class).bind((e) -> YourMod.networkManager.sync(this)); // Make sure we sync when the orientation is initially set
+		events.on(Block.PlaceEvent.class).bind((e) -> YourMod.networkManager.sync(this)); // Make sure we sync when the orientation is initially set
 	}
 
 	/**
