@@ -22,6 +22,16 @@ public class BlockStateless extends Block implements Syncable {
 		System.out.println("Sending Packet: 1234");
 		NovaBlock.networkManager.sync(this);
 	}
+
+	@Override
+	public void read(Packet packet) {
+		System.out.println("Received packet: " + packet.readInt());
+	}
+
+	@Override
+	public void write(Packet packet) {
+		packet.writeInt(1234);
+	}
 }
 ```
 
