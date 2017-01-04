@@ -10,7 +10,7 @@ The code above registers a block class called `BlockStateless`. `BlockStateless`
 public class BlockStateless extends Block implements Syncable {
 
 	public BlockStateless() {
-		components.add(new StaticBlockRenderer(this)).setTexture(NovaBlock.steelTexture); // TODO: Removed
+		components.add(new StaticRenderer().onRender(new BlockRenderPipeline(this).withTexture(NovaBlock.steelTexture).build()));
 		components.add(new Collider());
 		components.add(new ItemRenderer(this)); // TODO: Deprecated
 		components.add(new Category("buildingBlocks"));
@@ -49,8 +49,8 @@ This is the category (equivalent to a creative tab in Minecraft) that this block
 ### `ItemRenderer`
 This handles the rendering of the block in your inventory and hand.
 
-### `BlockRenderer`
-This is responsible for rendering the block in the world. In the example above, `StaticBlockRenderer` is used but there are a few others you can use as well. 
+### `Renderer`
+This is responsible for rendering the block in the world. In the example above, `StaticRenderer` is used but there are a few others you can use as well. 
 
 ## Special Components
 NOVA is meant to be modular and allows you to make your own components to add but it's also "Batteries included." Here are some components that NOVA provides you might find useful.
@@ -74,15 +74,18 @@ Storable allows a block to store its variables when a game saves. By implementin
 ## Rendering
 To render your block you have several options:
 
-- Use the `StaticBlockRenderer` (Removed)
+- Use the `StaticRenderer` and the `BlockRenderPipeline`.
 - Use any of the other built-in NOVA renderers
 - Create your own block renderer
 
-### `StaticBlockRenderer`
+### `BlockRenderPipeline`
 This is used for rendering simple blocks with static textures that only update when the block does.
 
-### `RotatedRenderer`
+### `OrientationRenderPipeline`
 This is for use in combination with the `Orientation` component, it rotates the rendering of the block to match the rotation stored in the `Orientation` object. If you use this you should also use a function to give multiple textures as there is no point in rotated rendering if the block has the same texture on all sides.
+
+### `ConnectedTextureRenderPipeline`
+This is used for rendering blocks with textures that merge when two such blocks are adjacent to each other.
 
 ## Advanced Example
 This is an example of a block that combines most of the things listed above, it has a collider, is rotatable (and rendered as such) and print it's orientation to the console when right-clicked.
@@ -100,7 +103,7 @@ public class BasicDuster extends Block implements Stateful, Storable, Syncable {
 	 */
 	@Sync
 	@Store
-	private Component orientation = new Orientation(this).hookBasedOnHitSide();
+	private Orientation orientation = new Orientation(this).hookBasedOnHitSide();
 
 	/**
 	 * Constructor for this block. Adds components, and binds events.
@@ -108,7 +111,8 @@ public class BasicDuster extends Block implements Stateful, Storable, Syncable {
 	public BasicDuster() {
 		components.add(new Collider(this)); // Collider (so the player doesn't walk through the block.)
 		components.add(orientation); // Orientation (see above)
-		components.add(new RotatedRenderer(this).setTexture(this::getTexture)); // Version of StaticBlockRenderer that honors Orientation. // TODO: Removed
+		components.add(new StaticRenderer().onRender(new BlockRenderPipeline(this).withTexture(this::getTexture)
+				.apply(new OrientationRenderPipeline(orientation)).build())); // Version of RenderPipeline that honors Orientation.
 		components.add(new ItemRenderer(this)); // Make the item render like the block. // TODO: Deprecated
 		components.add(new Category("buildingBlocks")); // Put this in the "Building Blocks" Creative category (in MC, anyway)
 		events.on(RightClickEvent.class).bind(this::click); // Make sure "click" is called when a player right-clicks this block
