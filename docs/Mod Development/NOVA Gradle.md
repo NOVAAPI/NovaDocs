@@ -11,6 +11,7 @@ Gradle
 Gradle is a tool some of you will have used when compiling MinecraftForge mods.
 The Gradle <abbr title="Domain Specific Langauge">DSL</abbr> which Gradle uses to define configuration is written in Groovy, so you can use the awesome Groovy programming language to script your build.
 Despite this, Gradle is convention based and declaritive. Compiling a NOVA provect is as simple as:
+
 ```groovy
 plugins {
     id "java"
@@ -51,7 +52,8 @@ You will see the following files in the template:
 #### `build.gradle`
 This file is the file which describes the Gradle build process.
 
-Here is an annotated version of the default `build.gradle`, **please use the file from NOVA-Template instead of copying this** <sup><sup>**cough** calclavia **cough**</sup></sup>.
+Here is an annotated version of the default `build.gradle`, **please use the file from NOVA-Template instead of copying this** <sup><sup> **cough** calclavia **cough**</sup></sup>.
+
 ```groovy
 plugins {
     id "java" //This is a java project, scala and groovy plugins also exist

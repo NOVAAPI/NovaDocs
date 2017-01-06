@@ -1,7 +1,7 @@
 Items are the second basic ingredient of any voxel game, and their existence is almost as essential as the existence of blocks. To create an item, you must register it with the ItemManager in your mod's preInit() stage.
 
 ```java
-ItemFactory itemScrewdriver = itemManager.register("testscrewdriver", ItemScrewdriver::new);
+ItemFactory itemScrewdriver = itemManager.register(modid + ":testscrewdriver", ItemScrewdriver::new);
 ```
 
 The code above registers an item class called `ItemScrewdriver`. `ItemScrewdriver` extends `Item`. The following is `ItemScrewdriver`'s code.

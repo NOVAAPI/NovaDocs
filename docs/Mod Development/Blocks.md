@@ -1,7 +1,7 @@
 Blocks are the basic ingredient of any voxel game, and their existence is essential. To create a block, you must register it with the BlockManager in your mod's preInit() stage.
 
 ```java
-BlockFactory blockStateless = blockManager.register("simple", BlockStateless::new);
+BlockFactory blockStateless = blockManager.register(modid + ":simple", BlockStateless::new);
 ```
 
 The code above registers a block class called `BlockStateless`. `BlockStateless` extends `Block`. The following is `BlockStateless`'s code.
@@ -90,7 +90,7 @@ This is used for rendering blocks with textures that merge when two such blocks 
 ## Advanced Example
 This is an example of a block that combines most of the things listed above, it has a collider, is rotatable (and rendered as such) and print it's orientation to the console when right-clicked.
 ```java
-BlockFactory blockStateless = blockManager.register("basic_duster", BasicDuster::new);
+BlockFactory blockStateless = blockManager.register(modid + ":basic_duster", BasicDuster::new);
 ```
 
 ```java

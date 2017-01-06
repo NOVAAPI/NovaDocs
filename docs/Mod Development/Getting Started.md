@@ -22,8 +22,8 @@ public class NovaBlock implements Loadable {
 
     @Override
     public void preInit() {
-        blockStateful = blockManager.register("stateful", BlockStateful::new);
-        blockStateless = blockManager.register("simple", BlockStateless::new);
+        blockStateful = blockManager.register(id + ":stateful", BlockStateful::new);
+        blockStateless = blockManager.register(id + ":simple", BlockStateless::new);
     }
 }
 ```
