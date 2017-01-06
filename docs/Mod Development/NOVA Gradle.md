@@ -1,16 +1,16 @@
-> If you feel like tl;dring this artifacle, skip to [#getting-started](#getting-started).
-> I however do not reccomend this because knowing your build system will save you trouble later.
+> If you feel like tl;dring this article, skip to [#getting-started](#getting-started).
+> I however do not recommend this because knowing your build system will save you trouble later.
 > If you know gradle well, you know what to skip already.
 
 NOVA Gradle is the Gradle plugin which allows you to run NOVA mods on wrappers easily during testing.
-Vanilla Gradle can compile and produce (non-wrapper) NOVA mods and plugins easilly but it lacks an easy way to test and debug these mods ingame.
+Vanilla Gradle can compile and produce (non-wrapper) NOVA mods and plugins easily but it lacks an easy way to test and debug these mods ingame.
 NOVA Gradle handles IDE setup and game setup for you so you don't have to. Let's get started!
 
 Gradle
 ------
-Gradle is a tool some of you will have used when compiling MinecraftForge mods.
-The Gradle <abbr title="Domain Specific Langauge">DSL</abbr> which Gradle uses to define configuration is written in Groovy, so you can use the awesome Groovy programming language to script your build.
-Despite this, Gradle is convention based and declaritive. Compiling a NOVA provect is as simple as:
+Gradle is a tool some of you will have used when compiling Minecraft Forge mods.
+The Gradle <abbr title="Domain Specific Language">DSL</abbr> which Gradle uses to define configuration is written in Groovy, so you can use the awesome Groovy programming language to script your build.
+Despite this, Gradle is convention based and declarative. Compiling a NOVA project is as simple as:
 
 ```groovy
 plugins {
@@ -18,6 +18,7 @@ plugins {
 }
 
 repositories {
+    mavenLocal()
     jcenter()
     maven { url "http://maven.novaapi.net/" }
 }
@@ -59,9 +60,10 @@ plugins {
     id "java" //This is a java project, scala and groovy plugins also exist
     id "nova.gradle" version "0.2.6" //Use the NOVA Gradle plugin version 0.2.6
 }
+apply from: "https://raw.githubusercontent.com/NOVA-Team/NOVA-Gradle/master/shared-scripts/java.gradle"
 
 dependencies { //Dependencies of this project
-    compile nova("0.1.0-SNAPSHOT") //Depend on NOVA for compiling
+    compile nova(nova_version) //Depend on NOVA for compiling
 }
 
 nova { //This block is used for configuring the NOVA Gradle plugin
@@ -75,17 +77,17 @@ nova { //This block is used for configuring the NOVA Gradle plugin
         //Wrapper profile for MC 1.7.10
         "17" {
             //The maven identifier of the wrapper this wrapper profile will use.
-            wrapper "nova.core:NOVA-Core-Wrapper-MC1.7:0.1.0-SNAPSHOT"
+            wrapper "nova.core:NOVA-Core-Wrapper-MC1.7:${nova_version}"
         }
 
         //Wrapper profile for MC 1.8
         "18" {
-            wrapper "nova.core:NOVA-Core-Wrapper-MC1.8:0.1.0-SNAPSHOT"
+            wrapper "nova.core:NOVA-Core-Wrapper-MC1.8:${nova_version}"
         }
 
         //Wrapper profile for MC 1.11
         "1_11" {
-            wrapper "nova.core:NOVA-Core-Wrapper-MC1.11:0.1.0-SNAPSHOT";
+            wrapper "nova.core:NOVA-Core-Wrapper-MC1.11:${nova_version}";
         }
     }
 }
@@ -96,12 +98,25 @@ This file stores properties which are made available to the build process, such 
 
 The Maven group defines a unique identifier for your project, and should be the same as your Java package.
 The convention is to use your domain name backwards as the start of your package, for example `net.novaapi.template` if you own the domain `novaapi.net`.
-If you don't have a domain, and you are open-sourcing the mod, the common practise is to use `com.github.githubusername.githubprojectname`.
+If you don't have a domain, and you are open-sourcing the mod, the common practice is to use `com.github.githubusername.githubprojectname`.
 If you aren't open sourcing or publishing the mod API, nobody really cares what package name you use...
+
+```properties
+# Mod version
+version = 0.1.0
+
+# Maven group
+group = net.novaapi.template
+
+# NOVA version
+nova_version = 0.1.0-SNAPSHOT
+```
 
 #### `settings.gradle` (Customise this)
 This file is used for setting the name of the project (`rootProject.name = "project name"`) and for multi-project builds.
 Multi-project builds are a complex topic that I will not cover in this introduction.
+
+If you wish to learn about multi-project builds, you can do so [here](https://docs.gradle.org/current/userguide/multi_project_builds.html).
 
 #### `gradlew` and `gradlew.bat`
 These scripts are the gradle wrapper scripts mentined before for running gradle.
@@ -127,6 +142,8 @@ You should see some run configurations added corresponding to the wrapper profil
 #### Eclipse
 If you are using eclipse instead of IDEA, you will have to run `gradle eclipse` and import the generated project into a new or existing workspace. No run configurations will be gerated, so you will have to use the [gradle plugin for eclipse](http://projects.eclipse.org/projects/tools.buildship) to run the wrapper gradle tasks (e.g. `run17Client`).
 
+#### NetBeans
+If you are using NetBeans instead of any of the above, you will have to get the [gradle plugin for NetBeans](http://plugins.netbeans.org/plugin/44510/gradle-support). This will allow you to open any folder containing a `.gradle` file as a project and run the wrapper gradle tasks (e.g. `run18Client`).
 
 ### IDEA Bugs (on windows)
 ```

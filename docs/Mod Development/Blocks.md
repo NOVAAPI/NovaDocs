@@ -1,7 +1,7 @@
 Blocks are the basic ingredient of any voxel game, and their existence is essential. To create a block, you must register it with the BlockManager in your mod's preInit() stage.
 
 ```java
-BlockFactory blockStateless = blockManager.register(modid + ":simple", BlockStateless::new);
+BlockFactory blockStateless = blockManager.register(MOD_ID + ":simple", BlockStateless::new);
 ```
 
 The code above registers a block class called `BlockStateless`. `BlockStateless` extends `Block`. The following is `BlockStateless`'s code.
@@ -63,7 +63,7 @@ The `@Store` will save and load the orientation so the data is not lost when the
 
 ## Special Interfaces
 ### `Syncable`
-You may have noticed that BlockStateless implements Syncable. This interface allows the block to handle packets easily. By implementing Syncable, the block can synchronize between server and client. You can override the default methods `read(Packet packet)` and `write(Packet packet)` as shown in the example to read and write custom packets upon synchronization. Any variable annotated by `@Sync` will be synced between server and client, as long as you either leave the default methods alone or call `Syncable.super.read(packet);` and `Syncable.super.write(packet);` from your read and write methods respectively.
+You may have noticed that BlockStateless implements Syncable. This interface allows the block to handle packets easily. By implementing Syncable, the block can synchronize between server and client. You can override the default methods `read(Packet packet)` and `write(Packet packet)` as shown in the example to read and write custom packets upon synchronization. Any variable annotated by `@Sync` will be synchronized between server and client, as long as you either leave the default methods alone or call `Syncable.super.read(packet);` and `Syncable.super.write(packet);` from your read and write methods respectively.
 
 ### `Stateful`
 By default, blocks will be stateless. This means that blocks will be unable to retain their variables and state. Stateless blocks are more efficient and are appropriate for blocks that are abundant and have no internal logic (e.g: Decoration blocks, ores and resources). However, more complex blocks will need to implement `Stateful` interface, which allows it to store its state in the world.
@@ -90,7 +90,7 @@ This is used for rendering blocks with textures that merge when two such blocks 
 ## Advanced Example
 This is an example of a block that combines most of the things listed above, it has a collider, is rotatable (and rendered as such) and print it's orientation to the console when right-clicked.
 ```java
-BlockFactory blockStateless = blockManager.register(modid + ":basic_duster", BasicDuster::new);
+BlockFactory blockStateless = blockManager.register(MOD_ID + ":basic_duster", BasicDuster::new);
 ```
 
 ```java

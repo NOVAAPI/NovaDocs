@@ -1,7 +1,7 @@
 Items are the second basic ingredient of any voxel game, and their existence is almost as essential as the existence of blocks. To create an item, you must register it with the ItemManager in your mod's preInit() stage.
 
 ```java
-ItemFactory itemScrewdriver = itemManager.register(modid + ":testscrewdriver", ItemScrewdriver::new);
+ItemFactory itemScrewdriver = itemManager.register(MOD_ID + ":testscrewdriver", ItemScrewdriver::new);
 ```
 
 The code above registers an item class called `ItemScrewdriver`. `ItemScrewdriver` extends `Item`. The following is `ItemScrewdriver`'s code.
@@ -31,7 +31,7 @@ This handles the rendering of the item in your inventory and hand.
 
 ## Special Interfaces
 ### `Syncable`
-Syncable allows an item to handle packets easily. By implementing Syncable, the item can synchronize between server and client. You can override the default methods `read(Packet packet)` and `write(Packet packet)` as shown in the example to read and write custom packets upon synchronization. Any variable annotated by `@Sync` will be synced between server and client, as long as you either leave the default methods alone or call `Syncable.super.read(packet);` and `Syncable.super.write(packet);` from your read and write methods respectively.
+Syncable allows an item to handle packets easily. By implementing Syncable, the item can synchronize between server and client. You can override the default methods `read(Packet packet)` and `write(Packet packet)` as shown in the example to read and write custom packets upon synchronization. Any variable annotated by `@Sync` will be synchronized between server and client, as long as you either leave the default methods alone or call `Syncable.super.read(packet);` and `Syncable.super.write(packet);` from your read and write methods respectively.
 
 ### `Storable`
 Storable allows an item to store its variables when a game saves. By implementing `Storable`, the item will be able to use the `@Store` annotation on variables you want to store. Note that not all variables can be properly stored via `@Store`, so you may need to override `save` and `load` to store the variables in whatever way fits them. If you want to use both the annotations and read/write your own custom data, call `Storable.super.read(packet);` and `Storable.super.write(packet);` in your overridden read/write methods.  
