@@ -98,7 +98,7 @@ This file stores properties which are made available to the build process, such 
 
 The Maven group defines a unique identifier for your project, and should be the same as your Java package.
 The convention is to use your domain name backwards as the start of your package, for example `net.novaapi.template` if you own the domain `novaapi.net`.
-If you don't have a domain, and you are open-sourcing the mod, the common practice is to use `com.github.githubusername.githubprojectname`.
+If you don't have a domain, and you are open-sourcing the mod, the common practise is to use `com.github.githubusername.githubprojectname`.
 If you aren't open sourcing or publishing the mod API, nobody really cares what package name you use...
 
 ```properties
