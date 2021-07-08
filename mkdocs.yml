@@ -23,6 +23,7 @@ nav:
     - Blocks: Mod Development/Blocks.md
     - Items: Mod Development/Items.md
     - Events: Mod Development/Events.md
+    - Rendering: Mod Development/Rendering.md
   - NOVA Development:
     - Development Workspace Setup: NOVA Development/Development Workspace Setup.md
     - Formatting: NOVA Development/Formatting.md
